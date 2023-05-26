@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useRef, useContext } from "react";
+import useInputs from "./useInputs";
+import { UserDispatch } from "./App";
 
-const CreateUser = ({
-  username,
-  email,
-  onChange,
-  onCreate,
-}) => {
+const CreateUser = () => {
+  const nextId = useRef(4);
+  const [form, onChange, reset] = useInputs({
+    username: "",
+    email: "",
+  });
+
+  const { username, email } = form;
+  const dispatch = useContext(UserDispatch);
   return (
     <div>
       <input
@@ -20,7 +25,22 @@ const CreateUser = ({
         onChange={onChange}
         value={email}
       />
-      <button onClick={onCreate}>등록</button>
+      <button
+        onClick={() => {
+          dispatch({
+            type: "CREATE_USER",
+            user: {
+              id: nextId.current,
+              username,
+              email,
+            },
+          });
+          nextId.current += 1;
+          reset();
+        }}
+      >
+        등록
+      </button>
     </div>
   );
 };
