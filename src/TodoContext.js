@@ -14,7 +14,7 @@ const initialTodos = [
   {
     id: 3,
     text: "Context 만들기",
-    done: false,
+    done: true,
   },
   {
     id: 4,
@@ -45,7 +45,6 @@ const TodoNextIdContext = createContext();
 export function TodoProvider({ children }) {
   const [state, dispatch] = useReducer(todoReducer, initialTodos);
   const nextId = useRef(5);
-
   return (
     <TodoStateContext.Provider value={state}>
       <TodoDispatchContext.Provider value={dispatch}>
